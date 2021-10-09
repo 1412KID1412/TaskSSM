@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>信息录入系统</title>
+    <link href="css/style.css" rel="stylesheet"/>
+    <link href="css/response.css" rel="stylesheet"/>
+</head>
+<body class="bg">
+<div class="content">
+    <div class="header">
+        <div class="header-nei">
+            <a href="javascript:;" onclick="javascript:history.back(-1);" class="back-up"><i
+                    class="iconfont">&#xe61f;</i></a>
+            <h2 class="header-title">签到详情</h2>
+        </div>
+    </div>
+    <!--head/-->
+    <div class="head-height">&nbsp;</div>
+    <div class="order-info">
+        <table>
+            <tr>
+                <th>姓名</th>
+                <td id="name">正在加载</td>
+            </tr>
+            <tr>
+                <th>学号</th>
+                <td id="sno">正在加载</td>
+            </tr>
+            <tr>
+                <th>班级</th>
+                <td id="classnumber">正在加载</td>
+            </tr>
+            <tr>
+                <th>课程</th>
+                <td id="cours">正在加载</td>
+            </tr>
+            <tr>
+                <th>时间</th>
+                <td id="datatime">正在加载</td>
+            </tr>
+            <tr>
+                <th>座位号</th>
+                <td id="num">正在加载</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<!--content/-->
+<div class="bg100"></div>
+<script src="js/jquery.min.js"></script>
+<script src="js/style.js"></script>
+</body>
+<script type="text/javascript">
+    $(function () {
+        //获取order.html传递过来的 下标i
+        //http://localhost:8080/ssh_sign/html/order-info.html?0
+        var i = (window.location.href).split("?")[1];
+        //通过一个ajax 向后台传递i，获取一条数据，并且显示在对应的位置上
+        $.ajax({
+            type: "post",
+            url: "/Task4_war_exploded/queryOne",
+            data: {'index': i},  //--->index与控制类中的变量index是一样的
+            dataType: "json",
+            success: function (res) {
+                $("#name").text(res.name);
+                $("#sno").text(res.sno);
+                $("#classnumber").text(res.classnumber);
+                $("#cours").text(res.cours);
+                $("#datatime").text(res.datatime);
+                $("#num").text(res.num);
+            },
+            error: function (data) {
+                alert("系统出现异常")
+            }
+        });
+    })
+</script>
+</html>

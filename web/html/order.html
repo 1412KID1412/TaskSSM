@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>信息录入系统</title>
+    <link href="css/style.css" rel="stylesheet"/>
+    <link href="css/response.css" rel="stylesheet"/>
+</head>
+<body class="bg">
+<div class="content">
+    <div class="header">
+        <div class="header-nei">
+            <a href="javascript:;" onclick="javascript:history.back(-1);" class="back-up"><i
+                    class="iconfont">&#xe61f;</i></a>
+            <h2 class="header-title">定单列表</h2>
+        </div>
+    </div>
+    <!--head/-->
+    <div class="head-height">&nbsp;</div>
+
+    <div class="nav" id="nav"></div>
+
+    <div class="loading" id="morediv"><a href="javascript:more()">加载全部信息...</a></div>
+</div>
+<!--content/-->
+<div class="bg100"></div>
+<script src="js/jquery.min.js"></script>
+<script src="js/style.js"></script>
+</body>
+<!-- 显示功能页面，页面加载的时候就应该触发ajax事件 -->
+<script type="text/javascript">
+
+    var _dl = '';
+    var data;
+    var flag = false;
+
+    $(function () {
+
+        //查询的ajax
+        $.ajax({
+            type: "post",
+            url: "/Task4_war_exploded/queryAll",
+            data: $('#form').serialize(),
+            dataType: "json",
+            success: function (res) {
+                data = res;//将查询到的数据扩大作用域，以便查看更多使用
+                //所有的数据都在res中 json数组
+                //query 如何遍历json数组
+                if (res != null && res.length > 0 && flag == false) {
+                    flag = true;
+                    // var _dl = '';
+                    $("#nav").empty(); //先清空列表
+                    $.each(res, function (i, v) { //每循环一次数组的时候，拼接一条html
+                        if (i <= 5) {
+                            _dl = _dl + //替换数组中想要显示的数据
+                                '<dl>' +
+                                '<a href="order-info.html?' + v.id + '">' +
+                                '<dt>' + (i + 1) + '</dt>' +
+                                '<dd>' + v.cours + ' ' + v.datatime + '</dd>' +
+                                '<i class="iconfont">&#xe649;</i>' +
+                                '<div class="clears"></div>' +
+                                '</a>' +
+                                '</dl>';
+                        }
+                    });
+                    $("#nav").append(_dl); //在循环之后将拼接后的html追加到根节点（列表）
+                }
+            },
+            error: function (res) {
+                alert("系统异常");
+            }
+        });
+    })
+
+
+    function more() {
+        $("#nav").empty(); //先清空列表
+        $.each(data, function (i, v) { //每循环一次数组的时候，拼接一条html
+            if (i > 5) {
+                _dl = _dl + //替换数组中想要显示的数据
+                    '<dl>' +
+                    '<a href="order-info.html?' + v.id + '">' +
+                    '<dt>' + (i + 1) + '</dt>' +
+                    '<dd>' + v.cours + ' ' + v.datatime + '</dd>' +
+                    '<i class="iconfont">&#xe649;</i>' +
+                    '<div class="clears"></div>' +
+                    '</a>' +
+                    '</dl>';
+            }
+        });
+        $("#nav").append(_dl); //在循环之后将拼接后的html追加到根节点（列表）
+
+        document.getElementById("morediv").style.display = "none";//全部显示完以后，隐藏显示更多按钮
+    }
+
+</script>
+</html>

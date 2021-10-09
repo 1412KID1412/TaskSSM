@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>签到系统</title>
+    <link href="css/style.css" rel="stylesheet"/>
+    <link href="css/response.css" rel="stylesheet"/>
+</head>
+<body class="bg">
+<div class="content">
+    <div class="header">
+        <div class="header-nei">
+            <h2 class="header-title">签到</h2>
+        </div>
+    </div>
+    <!--head/-->
+    <div class="head-height">&nbsp;</div>
+    <div class="login-reg" style="padding-top:16px;">
+        <form id="form1">
+            <div class="log-reg-list"><input type="text" name="name" class="log-reg-text2 order-txm"
+                                             placeholder="请输入姓名"/><span>*必填</span></div>
+            <div class="log-reg-list"><input type="text" name="sno" class="log-reg-text2 order-sj"
+                                             placeholder="请输入学号"/><span>*</span></div>
+            <div class="log-reg-list"><input type="text" name="classnumber" class="log-reg-text2 order-phone"
+                                             placeholder="请输入班级"/><span>*</span></div>
+            <div class="log-reg-list"><input type="text" name="cours" class="log-reg-text2 order-sj-name"
+                                             placeholder="课程名称"/><span>*</span></div>
+            <div class="log-reg-list"><input type="text" name="datatime" class="log-reg-text2 order-user"
+                                             placeholder="上课时间"/><span>*</span></div>
+            <div class="log-reg-list"><input type="text" name="num" class="log-reg-text2 order-phone"
+                                             placeholder="座位号"/><span>*</span></div>
+        </form>
+        <div class="log-reg-sub">
+            <a href="javascript:tijiao();" class="log-reg-btn">提交</a>
+        </div>
+    </div>
+</div>
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/style.js"></script>
+</body>
+
+<!--jquery 轻量级 前端框架 ajax 异步请求 结合strut2(spring mvc) -->
+<!--json 对象 -->
+<script type="text/javascript">
+
+    function tijiao() {
+        $.ajax({
+            type: "post",
+            url: "/Task4_war_exploded/add",
+            data: $('#form1').serialize(),
+            dataType: "json",
+            success: function (res) {
+                if (res == 1) {
+                    alert("签到成功!");
+                    window.location.href = "order.html";
+                } else {
+                    alert("签到失败！！！");
+                }
+            },
+            error: function (data) {
+                alert("系统出现异常！！！！");
+            }
+        });
+    }
+
+</script>
+
+</html>
